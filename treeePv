@@ -10,7 +10,7 @@ local muscleEvent = Player:WaitForChild("muscleEvent")
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/lkjhg969/ffdsf/refs/heads/main/hgfhj", true))()
 local window = library:AddWindow("DESTROYER | PRIVATE | KILLER", {
     main_color = Color3.fromRGB(0, 0, 0),
-    min_size = Vector2.new(500, 700),
+    min_size = Vector2.new(400, 570),
 })
 
 local mainTab = window:AddTab("     Main     ")
@@ -43,7 +43,7 @@ deleteAds()
 local creditsLabel = mainTab:AddLabel("Credits Treee:")
 creditsLabel.TextSize = 45
 creditsLabel.Font = Enum.Font.PermanentMarker
-mainTab:AddLabel("--------------------------------------------")
+mainTab:AddLabel("——————————————————————")
 local essentialsLabel = mainTab:AddLabel("Essentials:")
 essentialsLabel.TextSize = 30
 essentialsLabel.Font = Enum.Font.PermanentMarker
@@ -457,7 +457,7 @@ local comboSwitch = killingTab:AddSwitch("Egg+NaN Combo)", function(bool)
 end)
 comboSwitch:Set(false)
 
-killingTab:AddLabel("----------------------------------------")
+killingTab:AddLabel("——————————————————————")
 local killAllLabel = killingTab:AddLabel("Kill All: ")
 killAllLabel.TextSize = 30
 killAllLabel.Font = Enum.Font.PermanentMarker
@@ -472,26 +472,6 @@ local whitelistDropdown = killingTab:AddDropdown("Add To Whitelist", function(se
         table.insert(_G.whitelistedPlayers, playerName)
     end
 end)
-
-local killEveryoneSwitch = killingTab:AddSwitch("Kill Everyone", function(bool)
-    _G.killAll = bool
-    if bool then
-        if not _G.killAllConnection then
-            _G.killAllConnection = RunService.Heartbeat:Connect(function()
-                if _G.killAll then
-                    for _, plr in ipairs(Players:GetPlayers()) do
-                        if plr ~= Player and not isWhitelisted(plr) then
-                            killPlayer(plr)
-                        end
-                    end
-                end
-            end)
-        end
-    else
-        if _G.killAllConnection then _G.killAllConnection:Disconnect() _G.killAllConnection = nil end
-    end
-end)
-killEveryoneSwitch:Set(false)
 
 local whitelistFriendsSwitch = killingTab:AddSwitch("Whitelist Friends", function(bool)
     _G.whitelistFriends = bool
@@ -517,12 +497,33 @@ local whitelistFriendsSwitch = killingTab:AddSwitch("Whitelist Friends", functio
     end
 end)
 whitelistFriendsSwitch:Set(false)
-killingTab:AddLabel("----------------------------------------")
-local targetKillingLabel = killingTab:AddLabel("Target Killing: ")
+
+local killEveryoneSwitch = killingTab:AddSwitch("Kill All", function(bool)
+    _G.killAll = bool
+    if bool then
+        if not _G.killAllConnection then
+            _G.killAllConnection = RunService.Heartbeat:Connect(function()
+                if _G.killAll then
+                    for _, plr in ipairs(Players:GetPlayers()) do
+                        if plr ~= Player and not isWhitelisted(plr) then
+                            killPlayer(plr)
+                        end
+                    end
+                end
+            end)
+        end
+    else
+        if _G.killAllConnection then _G.killAllConnection:Disconnect() _G.killAllConnection = nil end
+    end
+end)
+killEveryoneSwitch:Set(false)
+
+killingTab:AddLabel("——————————————————————")
+local targetKillingLabel = killingTab:AddLabel("Targeting:")
 targetKillingLabel.TextSize = 30
 targetKillingLabel.Font = Enum.Font.PermanentMarker
 
-local blacklistDropdown = killingTab:AddDropdown("Add To Killist", function(selectedText)
+local blacklistDropdown = killingTab:AddDropdown("Add To Blacklist", function(selectedText)
     local playerName = selectedText:match("| (.+)$")
     if playerName then
         playerName = playerName:gsub("^%s*(.-)%s*$", "%1")
@@ -549,7 +550,7 @@ Players.PlayerAdded:Connect(function(plr)
     end
 end)
 
-local blacklistKillSwitch = killingTab:AddSwitch("Kill List", function(bool)
+local blacklistKillSwitch = killingTab:AddSwitch("Kill", function(bool)
     _G.killBlacklistedOnly = bool
     if bool then
         if not _G.blacklistKillConnection then
@@ -588,7 +589,7 @@ local function updateSpectateTarget(plr)
     end
 end
 
-local specdropdown = killingTab:AddDropdown("Choose Player", function(text)
+local specdropdown = killingTab:AddDropdown("Select Player To Spectate", function(text)
     for _, plr in ipairs(Players:GetPlayers()) do
         local optionText = plr.DisplayName .. " | " .. plr.Name
         if text == optionText then
@@ -626,22 +627,22 @@ Players.PlayerRemoving:Connect(function(plr)
         if spectating then spectateSwitch:Set(false) end
     end
 end)
-killingTab:AddLabel("----------------------------------------")
+killingTab:AddLabel("——————————————————————")
 local whitelistLabel = killingTab:AddLabel("Whitelist: None")
 whitelistLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
-whitelistLabel.TextSize = 24
+whitelistLabel.TextSize = 30
 whitelistLabel.Font = Enum.Font.PermanentMarker
 
 killingTab:AddButton("Clear Whitelist", function()
     _G.whitelistedPlayers = {}
 end)
 
-local blacklistLabel = killingTab:AddLabel("Killist: None") 
+local blacklistLabel = killingTab:AddLabel("Blacklist: None") 
 blacklistLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-blacklistLabel.TextSize = 24
+blacklistLabel.TextSize = 30
 blacklistLabel.Font = Enum.Font.PermanentMarker
 
-killingTab:AddButton("Clear Killist", function()
+killingTab:AddButton("Clear Blacklist", function()
     _G.blacklistedPlayers = {}
 end)
 
@@ -655,9 +656,9 @@ end
 
 local function updateBlacklistLabel()
     if #_G.blacklistedPlayers == 0 then
-        blacklistLabel.Text = "Killist: None"
+        blacklistLabel.Text = "Blacklist: None"
     else
-        blacklistLabel.Text = "Killist: " .. table.concat(_G.blacklistedPlayers, ", ")
+        blacklistLabel.Text = "Blacklist: " .. table.concat(_G.blacklistedPlayers, ", ")
     end
 end
 
@@ -669,7 +670,7 @@ task.spawn(function()
     end
 end)
 
-local godmodeLabel = godmodeTab:AddLabel("GodMode:")
+local godmodeLabel = godmodeTab:AddLabel("GodMode Kill:")
 godmodeLabel.TextSize = 30
 godmodeLabel.Font = Enum.Font.PermanentMarker
 
@@ -802,10 +803,10 @@ end)
 godmodeTab:AddButton("Size 30", function()
     game:GetService("ReplicatedStorage").rEvents.changeSpeedSizeRemote:InvokeServer("changeSize", 30)
 end)
-godmodeTab:AddLabel("----------------------------------------")
-local extrasLabel = godmodeTab:AddLabel("Extras:")
-extrasLabel.TextSize = 30
-extrasLabel.Font = Enum.Font.PermanentMarker
+godmodeTab:AddLabel("——————————————————————")
+local miscLabel = godmodeTab:AddLabel("Misc:")
+miscLabel.TextSize = 30
+miscLabel.Font = Enum.Font.PermanentMarker
 
 local equipEvent = ReplicatedStorage.rEvents.equipPetEvent
 local cache = { WildWizard = {}, MightyMonster = {} }
@@ -1003,22 +1004,22 @@ local size2CounterSwitch = godmodeTab:AddSwitch("Dynamic Kill", function(bool)
         unequipCounterEgg()
     end
 end)
-godmodeTab:AddLabel("----------------------------------------")
-local counterBlacklistLabel = godmodeTab:AddLabel("Dynamic Blacklist: None")
+
+local counterBlacklistLabel = godmodeTab:AddLabel("Blacklist: None")
 counterBlacklistLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-counterBlacklistLabel.TextSize = 24
+counterBlacklistLabel.TextSize = 30
 counterBlacklistLabel.Font = Enum.Font.PermanentMarker
 
-godmodeTab:AddButton("Clear Dynamic Blacklist", function()
+godmodeTab:AddButton("Clear Blacklist", function()
     size2CounterBlacklist = {}
 end)
 
 task.spawn(function()
     while true do
         if #size2CounterBlacklist == 0 then
-            counterBlacklistLabel.Text = "Dynamic Blacklist: None"
+            counterBlacklistLabel.Text = "Blacklist: None"
         else
-            counterBlacklistLabel.Text = "Dynamic Blacklist: " .. table.concat(size2CounterBlacklist, ", ")
+            counterBlacklistLabel.Text = "Blacklist: " .. table.concat(size2CounterBlacklist, ", ")
         end
         task.wait(0.2)
     end
