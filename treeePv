@@ -8,15 +8,15 @@ local Player = Players.LocalPlayer
 local muscleEvent = Player:WaitForChild("muscleEvent")
 
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/empresstreee/pvscripts/refs/heads/main/treeeUi", true))()
-local window = library:AddWindow("TREEE | PRIVATE | KILLER", {
+local window = library:AddWindow("DESTROYER | Private Killing", {
     main_color = Color3.fromRGB(0, 0, 0),
-    min_size = Vector2.new(400, 570),
+    min_size = Vector2.new(400, 600),
 })
 
-local mainTab = window:AddTab("     Main     ")
-local killingTab = window:AddTab("     Killing     ")
+local mainTab = window:AddTab("          Main          ")
+local killingTab = window:AddTab("          Killing          ")
 killingTab:Show()
-local godmodeTab = window:AddTab("     GodMode     ")
+local godmodeTab = window:AddTab("          GodMode          ")
 
 Player.Idled:Connect(function()
     virtualUser:CaptureController()
@@ -48,48 +48,13 @@ local essentialsLabel = mainTab:AddLabel("Essentials:")
 essentialsLabel.TextSize = 30
 essentialsLabel.Font = Enum.Font.PermanentMarker
 
-
-mainTab:AddButton("Anti Lag", function()
+mainTab:AddButton("Load Anti Lag", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/juywvm/-Roblox-Projects-/main/____Anti_Afk_Remastered_______"))()
 end)
 
-local parts = {}
-local partSize = 2048
-local totalDistance = 50000
-local startPosition = Vector3.new(-2, -9.5, -2)
-
-local function createAllParts()
-    local numberOfParts = math.ceil(totalDistance / partSize)
-    for x = 0, numberOfParts - 1 do
-        for z = 0, numberOfParts - 1 do
-            local function createPart(pos, name)
-                local part = Instance.new("Part")
-                part.Size = Vector3.new(partSize, 1, partSize)
-                part.Position = pos
-                part.Anchored = true
-                part.Transparency = 1
-                part.CanCollide = true
-                part.Name = name
-                part.Parent = workspace
-                return part
-            end
-            table.insert(parts, createPart(startPosition + Vector3.new(x*partSize,0,z*partSize), "Part_Side_"..x.."_"..z))
-            table.insert(parts, createPart(startPosition + Vector3.new(-x*partSize,0,z*partSize), "Part_LeftRight_"..x.."_"..z))
-            table.insert(parts, createPart(startPosition + Vector3.new(-x*partSize,0,-z*partSize), "Part_UpLeft_"..x.."_"..z))
-            table.insert(parts, createPart(startPosition + Vector3.new(x*partSize,0,-z*partSize), "Part_UpRight_"..x.."_"..z))
-        end
-    end
-end
-task.spawn(createAllParts)
-
-local walkOnWaterSwitch = mainTab:AddSwitch("Walk On Water", function(bool)
-    for _, part in ipairs(parts) do
-        if part and part.Parent then
-            part.CanCollide = bool
-        end
-    end
+mainTab:AddButton("Rejoin", function()
+    game:GetService("TeleportService"):Teleport(game.PlaceId, lp)
 end)
-walkOnWaterSwitch:Set(true)
 
 local running = false
 local running = false
@@ -128,6 +93,44 @@ local antiKnockbackSwitch = mainTab:AddSwitch("Anti Fling", function(bool)
     end
 end)
 antiKnockbackSwitch:Set(true)
+
+local parts = {}
+local partSize = 2048
+local totalDistance = 50000
+local startPosition = Vector3.new(-2, -9.5, -2)
+
+local function createAllParts()
+    local numberOfParts = math.ceil(totalDistance / partSize)
+    for x = 0, numberOfParts - 1 do
+        for z = 0, numberOfParts - 1 do
+            local function createPart(pos, name)
+                local part = Instance.new("Part")
+                part.Size = Vector3.new(partSize, 1, partSize)
+                part.Position = pos
+                part.Anchored = true
+                part.Transparency = 1
+                part.CanCollide = true
+                part.Name = name
+                part.Parent = workspace
+                return part
+            end
+            table.insert(parts, createPart(startPosition + Vector3.new(x*partSize,0,z*partSize), "Part_Side_"..x.."_"..z))
+            table.insert(parts, createPart(startPosition + Vector3.new(-x*partSize,0,z*partSize), "Part_LeftRight_"..x.."_"..z))
+            table.insert(parts, createPart(startPosition + Vector3.new(-x*partSize,0,-z*partSize), "Part_UpLeft_"..x.."_"..z))
+            table.insert(parts, createPart(startPosition + Vector3.new(x*partSize,0,-z*partSize), "Part_UpRight_"..x.."_"..z))
+        end
+    end
+end
+task.spawn(createAllParts)
+
+local walkOnWaterSwitch = mainTab:AddSwitch("Walk On Water", function(bool)
+    for _, part in ipairs(parts) do
+        if part and part.Parent then
+            part.CanCollide = bool
+        end
+    end
+end)
+walkOnWaterSwitch:Set(true)
 
 local posLocked = false
 local lockedPosition = nil
@@ -191,10 +194,6 @@ player.CharacterAdded:Connect(function(newCharacter)
         lockedPosition = rootPart.Position
         lockPosition()
     end
-end)
-
-mainTab:AddButton("Rejoin", function()
-    game:GetService("TeleportService"):Teleport(game.PlaceId, lp)
 end)
 
 local showPetsSwitch = mainTab:AddSwitch("Show Pets", function(bool)
@@ -419,7 +418,7 @@ local switch = killingTab:AddSwitch("Remove Animations", function(bool)
         end
     end
 end)
-switch:Set(false)
+switch:Set(true)
 
 local comboActive = false
 local eggLoop, characterAddedConn
@@ -496,7 +495,7 @@ local whitelistFriendsSwitch = killingTab:AddSwitch("Whitelist Friends", functio
         end)
     end
 end)
-whitelistFriendsSwitch:Set(false)
+whitelistFriendsSwitch:Set(true)
 
 local killEveryoneSwitch = killingTab:AddSwitch("Kill All", function(bool)
     _G.killAll = bool
@@ -516,7 +515,7 @@ local killEveryoneSwitch = killingTab:AddSwitch("Kill All", function(bool)
         if _G.killAllConnection then _G.killAllConnection:Disconnect() _G.killAllConnection = nil end
     end
 end)
-killEveryoneSwitch:Set(false)
+killEveryoneSwitch:Set(true)
 
 killingTab:AddLabel("——————————————————————")
 local targetKillingLabel = killingTab:AddLabel("Targeting:")
@@ -568,6 +567,7 @@ local blacklistKillSwitch = killingTab:AddSwitch("Kill", function(bool)
         if _G.blacklistKillConnection then _G.blacklistKillConnection:Disconnect() _G.blacklistKillConnection = nil end
     end
 end)
+blacklistKillSwitch:Set(true)
 
 local selectedPlayerToSpectate = nil
 local spectating = false
@@ -612,6 +612,7 @@ local spectateSwitch = killingTab:AddSwitch("Spectate", function(bool)
         end
     end
 end)
+spectateSwitch:Set(true)
 
 for _, plr in ipairs(Players:GetPlayers()) do
     specdropdown:Add(plr.DisplayName .. " | " .. plr.Name)
@@ -795,6 +796,7 @@ local safeSpotSwitch = godmodeTab:AddSwitch("GodMode Counter", function(p156)
         end
     end)
 end)
+safeSpotSwitch:Set(true)
 
 godmodeTab:AddButton("Size 2", function()
     game:GetService("ReplicatedStorage").rEvents.changeSpeedSizeRemote:InvokeServer("changeSize", 2)
@@ -1004,6 +1006,7 @@ local size2CounterSwitch = godmodeTab:AddSwitch("Dynamic Kill", function(bool)
         unequipCounterEgg()
     end
 end)
+size2CounterSwitch:Set(true)
 
 local counterBlacklistLabel = godmodeTab:AddLabel("Blacklist: None")
 counterBlacklistLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
