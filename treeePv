@@ -1068,9 +1068,9 @@ packSpamSwitch = godmodeTab:AddSwitch("Pack Spam", function(enabled)
         task.spawn(function()
             while active do
                 swap(cache.MightyMonster, cache.WildWizard)
-                task.wait(0.3)
+                task.wait(0.1)
                 swap(cache.WildWizard, cache.MightyMonster)
-                task.wait(0.3)
+                task.wait(0.1)
             end
         end)
     else
