@@ -39,13 +39,10 @@ mainTab:AddLabel("————————————————————�
 local essentialsLabel = mainTab:AddLabel("Essentials:")
 essentialsLabel.TextSize = 35
 essentialsLabel.Font = Enum.Font.PermanentMarker
-mainTab:AddButton("Rejoin Server", function()
-    game:GetService("TeleportService"):Teleport(game.PlaceId, lp)
-end)
-mainTab:AddButton("Load Anti Lag", function()
+mainTab:AddButton("Anti Lag", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/juywvm/-Roblox-Projects-/main/____Anti_Afk_Remastered_______"))()
 end)
-mainTab:AddButton("Load Infinite Yield", function()
+mainTab:AddButton("Infinite Yield", function()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 end)
 local running = false
@@ -111,7 +108,7 @@ local function createAllParts()
     end
 end
 task.spawn(createAllParts)
-local walkOnWaterSwitch = mainTab:AddSwitch("Walk on Water", function(bool)
+local walkOnWaterSwitch = mainTab:AddSwitch("Walk On Water", function(bool)
     for _, part in ipairs(parts) do
         if part and part.Parent then
             part.CanCollide = bool
@@ -119,6 +116,104 @@ local walkOnWaterSwitch = mainTab:AddSwitch("Walk on Water", function(bool)
     end
 end)
 walkOnWaterSwitch:Set(true)
+local posLocked = false
+local lockedPosition = nil
+local function lockPosition()
+	if not posLocked or not lockedPosition then
+		return
+	end
+
+	local currentCharacter = player.Character
+	if not currentCharacter then
+		return
+	end
+
+	local rootPart = currentCharacter:FindFirstChild("HumanoidRootPart")
+	if not rootPart then
+		return
+	end
+
+	local existingPosition = rootPart:FindFirstChild("PositionLocker")
+
+	if existingPosition then
+		existingPosition.Position = lockedPosition
+	else
+		local bodyPosition = Instance.new("BodyPosition")
+		bodyPosition.Name = "PositionLocker"
+		bodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+		bodyPosition.Position = lockedPosition
+		bodyPosition.P = 100000
+		bodyPosition.Parent = rootPart
+	end
+end
+local function unlockPosition()
+	local currentCharacter = player.Character
+	if currentCharacter then
+		local rootPart = currentCharacter:FindFirstChild("HumanoidRootPart")
+		if rootPart then
+			local existingPosition = rootPart:FindFirstChild("PositionLocker")
+			if existingPosition then
+				existingPosition:Destroy()
+			end
+		end
+	end
+	lockedPosition = nil
+end
+local lockPositionSwitch = mainTab:AddSwitch("Lock Position", function(bool)
+	posLocked = bool
+
+	if bool then
+		local currentRootPart = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+		if currentRootPart then
+			lockedPosition = currentRootPart.Position
+		end
+		lockPosition()
+	else
+		unlockPosition()
+	end
+end)
+lockPositionSwitch:Set(false)
+player.CharacterAdded:Connect(function(newCharacter)
+	local rootPart = newCharacter:WaitForChild("HumanoidRootPart", 5)
+	if posLocked and rootPart then
+		lockedPosition = rootPart.Position
+		lockPosition()
+	end
+end)
+task.spawn(function()
+	while true do
+		if posLocked then
+			lockPosition()
+		end
+		task.wait(0.1)
+	end
+end)
+mainTab:AddButton("Rejoin Server", function()
+    game:GetService("TeleportService"):Teleport(game.PlaceId, lp)
+end)
+local showpetsswitch = mainTab:AddSwitch("Show Pets", function(bool)
+    local player = game:GetService("Players").LocalPlayer
+    if player:FindFirstChild("hidePets") then
+        player.hidePets.Value = bool
+    end
+end)
+showpetsswitch:Set(false)
+local showotherpetsswitch = mainTab:AddSwitch("Show Other Pets", function(bool)
+    local player = game:GetService("Players").LocalPlayer
+    if player:FindFirstChild("showOtherPetsOn") then
+        player.showOtherPetsOn.Value = bool
+    end
+end)
+showotherpetsswitch:Set(false)
+local hideFramesSwitch = mainTab:AddSwitch("Hide Frames", function(bool)
+    local rSto = game:GetService("ReplicatedStorage")
+    for _, obj in pairs(rSto:GetChildren()) do
+        if obj.Name:match("Frame$") then
+            obj.Visible = not bool
+        end
+    end
+end)
+hideFramesSwitch:Set(true)
 local function checkCharacter()
     if not game.Players.LocalPlayer.Character then
         repeat task.wait() until game.Players.LocalPlayer.Character
@@ -572,7 +667,6 @@ local autoPunchNoAnima = killingTab:AddSwitch("Auto Punch [Without Animation]", 
 		autoPunchNoAnim = false
 	end
 end)
-autoPunchNoAnima:Set(true)
 killingTab:AddLabel("————————————————————————————————————————")
 local killAllLabel = killingTab:AddLabel("Kill All: ")
 killAllLabel.TextSize = 30
@@ -645,6 +739,7 @@ local switch = killingTab:AddSwitch("Whitelist Friends", function(bool)
         end)
     end
 end)
+switch:Set(true)
 local switch = killingTab:AddSwitch("Kill All", function(bool)
     _G.killAll = bool
     if bool then
@@ -666,7 +761,7 @@ local switch = killingTab:AddSwitch("Kill All", function(bool)
         end
     end
 end)
-switch:Set(true)
+switch:Set(false)
 killingTab:AddLabel("————————————————————————————————————————")
 local targetKillingLabel = killingTab:AddLabel("Targeting:")
 targetKillingLabel.TextSize = 30
@@ -939,7 +1034,7 @@ local safeSpotSwitch = godmodeTab:AddSwitch("GodMode Counter", function(p156)
         end
     end)
 end)
-safeSpotSwitch:Set(true)
+safeSpotSwitch:Set(false)
 godmodeTab:AddButton("Size 2", function()
     game:GetService("ReplicatedStorage").rEvents.changeSpeedSizeRemote:InvokeServer("changeSize", 2)
 end)
@@ -983,7 +1078,7 @@ packSpamSwitch = godmodeTab:AddSwitch("Pack Spam", function(enabled)
         for _, p in pairs(cache.MightyMonster) do pcall(function() equipEvent:FireServer("unequipPet", p) end) end
     end
 end)
-packSpamSwitch:Set(true)
+packSpamSwitch:Set(false)
 local size2CounterBlacklist = {}
 local cState = {
     active = false,
