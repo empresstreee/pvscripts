@@ -9,7 +9,7 @@ local muscleEvent = Player:WaitForChild("muscleEvent")
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/empresstreee/pvscripts/refs/heads/main/treeeUi", true))()
 local window = library:AddWindow("DESTROYER | Private Killing", {
     main_color = Color3.fromRGB(0, 0, 0),
-    min_size = Vector2.new(500, 700),
+    min_size = Vector2.new(500, 750),
 })
 Player.Idled:Connect(function()
     virtualUser:CaptureController()
@@ -599,7 +599,7 @@ killingTab:AddSwitch("Fast Punch", function(state)
 		end
 	end
 end)
-killingTab:AddSwitch("Auto Punch [With Animation]", function(state)
+killingTab:AddSwitch("Auto Punch With Animation", function(state)
 	_G.fastHitActive = state
 	if state then
 		task.spawn(function()
@@ -631,7 +631,7 @@ killingTab:AddSwitch("Auto Punch [With Animation]", function(state)
 	end
 end)
 local autoPunchNoAnim = false
-local autoPunchNoAnima = killingTab:AddSwitch("Auto Punch [Without Animation]", function(state)
+local autoPunchNoAnima = killingTab:AddSwitch("Auto Punch Without Animation", function(state)
 	autoPunchNoAnim = state
 	if state then
 		task.spawn(function()
@@ -1229,6 +1229,7 @@ local size2CounterSwitch = godmodeTab:AddSwitch("Dynamic Kill", function(bool)
     end
 end)
 size2CounterSwitch:Set(true)
+godmodeTab:AddLabel("————————————————————————————————————————")
 local counterBlacklistLabel = godmodeTab:AddLabel("Blacklist: None")
 counterBlacklistLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
 counterBlacklistLabel.TextSize = 30
