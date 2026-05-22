@@ -83,7 +83,7 @@ local antiFlingSwitch = mainTab:AddSwitch("Anti Fling", function(bool)
         end
     end
 end)
-antiFlingSwitch:Set(false)
+antiFlingSwitch:Set(true)
 local parts = {}
 local partSize = 2048
 local totalDistance = 50000
@@ -118,7 +118,7 @@ local walkOnWaterSwitch = mainTab:AddSwitch("Walk on Water", function(bool)
         end
     end
 end)
-walkOnWaterSwitch:Set(false)
+walkOnWaterSwitch:Set(true)
 local function checkCharacter()
     if not game.Players.LocalPlayer.Character then
         repeat task.wait() until game.Players.LocalPlayer.Character
@@ -536,7 +536,7 @@ killingTab:AddSwitch("Auto Punch [With Animation]", function(state)
 	end
 end)
 local autoPunchNoAnim = false
-killingTab:AddSwitch("Auto Punch [Without Animation]", function(state)
+local autoPunchNoAnima = killingTab:AddSwitch("Auto Punch [Without Animation]", function(state)
 	autoPunchNoAnim = state
 	if state then
 		task.spawn(function()
@@ -572,6 +572,7 @@ killingTab:AddSwitch("Auto Punch [Without Animation]", function(state)
 		autoPunchNoAnim = false
 	end
 end)
+autoPunchNoAnima:Set(true)
 killingTab:AddLabel("————————————————————————————————————————")
 local killAllLabel = killingTab:AddLabel("Kill All: ")
 killAllLabel.TextSize = 30
@@ -665,7 +666,7 @@ local switch = killingTab:AddSwitch("Kill All", function(bool)
         end
     end
 end)
-switch:Set(false)
+switch:Set(true)
 killingTab:AddLabel("————————————————————————————————————————")
 local targetKillingLabel = killingTab:AddLabel("Targeting:")
 targetKillingLabel.TextSize = 30
@@ -715,6 +716,7 @@ local blacklistKillSwitch = killingTab:AddSwitch("Kill", function(bool)
         end
     end
 end)
+blacklistKillSwitch:Set(true)
 local selectedPlayerToSpectate = nil
 local spectating = false
 local currentTargetConnection = nil
@@ -771,6 +773,7 @@ local spectateSwitch = killingTab:AddSwitch("Spectate", function(bool)
         end
     end
 end)
+spectateSwitch:Set(true)
 for _, player in ipairs(updatePlayerList()) do
     specdropdown:Add(player.DisplayName .. " | " .. player.Name)
 end
@@ -936,7 +939,7 @@ local safeSpotSwitch = godmodeTab:AddSwitch("GodMode Counter", function(p156)
         end
     end)
 end)
-safeSpotSwitch:Set(false)
+safeSpotSwitch:Set(true)
 godmodeTab:AddButton("Size 2", function()
     game:GetService("ReplicatedStorage").rEvents.changeSpeedSizeRemote:InvokeServer("changeSize", 2)
 end)
@@ -963,7 +966,7 @@ local function swap(unequipList, equipList)
     for _, p in pairs(unequipList) do pcall(function() equipEvent:FireServer("unequipPet", p) end) end
     for i = 1, math.min(8, #equipList) do pcall(function() equipEvent:FireServer("equipPet", equipList[i]) end) end
 end
-godmodeTab:AddSwitch("Pack Spam", function(enabled)
+packSpamSwitch = godmodeTab:AddSwitch("Pack Spam", function(enabled)
     active = enabled
     if enabled then
         cachePets()
@@ -980,6 +983,7 @@ godmodeTab:AddSwitch("Pack Spam", function(enabled)
         for _, p in pairs(cache.MightyMonster) do pcall(function() equipEvent:FireServer("unequipPet", p) end) end
     end
 end)
+packSpamSwitch:Set(true)
 local size2CounterBlacklist = {}
 local cState = {
     active = false,
@@ -1129,7 +1133,7 @@ local size2CounterSwitch = godmodeTab:AddSwitch("Dynamic Kill", function(bool)
         unequipCounterEgg()
     end
 end)
-size2CounterSwitch:Set(false)
+size2CounterSwitch:Set(true)
 local counterBlacklistLabel = godmodeTab:AddLabel("Blacklist: None")
 counterBlacklistLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
 counterBlacklistLabel.TextSize = 30
