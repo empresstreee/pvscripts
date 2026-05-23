@@ -80,7 +80,7 @@ local antiFlingSwitch = mainTab:AddSwitch("Anti Fling", function(bool)
         end
     end
 end)
-antiFlingSwitch:Set(true)
+antiFlingSwitch:Set(false)
 local parts = {}
 local partSize = 2048
 local totalDistance = 50000
@@ -739,7 +739,7 @@ local switch = killingTab:AddSwitch("Whitelist Friends", function(bool)
         end)
     end
 end)
-switch:Set(true)
+switch:Set(false)
 local switch = killingTab:AddSwitch("Kill All", function(bool)
     _G.killAll = bool
     if bool then
@@ -811,7 +811,7 @@ local blacklistKillSwitch = killingTab:AddSwitch("Kill", function(bool)
         end
     end
 end)
-blacklistKillSwitch:Set(true)
+blacklistKillSwitch:Set(false)
 local selectedPlayerToSpectate = nil
 local spectating = false
 local currentTargetConnection = nil
@@ -868,7 +868,7 @@ local spectateSwitch = killingTab:AddSwitch("Spectate", function(bool)
         end
     end
 end)
-spectateSwitch:Set(true)
+spectateSwitch:Set(false)
 for _, player in ipairs(updatePlayerList()) do
     specdropdown:Add(player.DisplayName .. " | " .. player.Name)
 end
@@ -1143,7 +1143,7 @@ local size2CounterSwitch = godmodeTab:AddSwitch("Dynamic Kill", function(bool)
         unequipCounterEgg()
     end
 end)
-size2CounterSwitch:Set(true)
+size2CounterSwitch:Set(false)
 local counterBlacklistLabel = godmodeTab:AddLabel("Blacklist: None")
 counterBlacklistLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
 counterBlacklistLabel.TextSize = 30
@@ -1277,6 +1277,9 @@ local safeSpotSwitch = godmodeTab:AddSwitch("GodMode Counter", function(p156)
     end)
 end)
 safeSpotSwitch:Set(false)
+godmodeTab:AddButton("Size 1", function()
+    game:GetService("ReplicatedStorage").rEvents.changeSpeedSizeRemote:InvokeServer("changeSize", 1)
+end)
 godmodeTab:AddButton("Size 2", function()
     game:GetService("ReplicatedStorage").rEvents.changeSpeedSizeRemote:InvokeServer("changeSize", 2)
 end)
