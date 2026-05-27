@@ -209,8 +209,9 @@ local showOthersPetsSwitch = mainTab:AddSwitch("Show Others Pets", function(bool
         player.showOtherPetsOn.Value = bool
     end
 end)
+showOthersPetsSwitch:Set(false)
 
-local hideStatFramesSwitch = MainTab:AddSwitch("Hide Stat Frames", function(bool)
+local hideStatFramesSwitch = mainTab:AddSwitch("Hide Stat Frames", function(bool)
     local rSto = game:GetService("ReplicatedStorage")
     for _, obj in pairs(rSto:GetChildren()) do
         if obj.Name:match("Frame$") then
