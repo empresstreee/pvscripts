@@ -1,8 +1,7 @@
 local a = {
-	main_color = Color3.fromRGB(41, 74, 122),
-	min_size = Vector2.new(450, 450),
+	main_color = Color3.fromRGB(50, 1, 55),
+	min_size = Vector2.new(500, 750),
 	toggle_key = Enum.KeyCode.RightShift,
-	can_resize = true
 }
 do
 	local b = game:GetService("CoreGui"):FindFirstChild("imgui")
@@ -135,7 +134,7 @@ h.Position = UDim2.new(0, 5, 0, - 2)
 h.Rotation = 0;
 h.Size = UDim2.new(0, 20, 0, 20)
 h.ZIndex = 2;
-h.Image = "https://www.roblox.com/Thumbs/Asset.ashx?width=420&height=420&assetId=128320750249818"
+h.Image = "https://www.roblox.com/Thumbs/Asset.ashx?width=420&height=420&assetId=114980649538654"
 i.Name = "Base"
 i.Parent = g;
 i.BackgroundColor3 = Color3.new(0.160784, 0.290196, 0.478431)
