@@ -1,5 +1,5 @@
 local ui_options = {
-	main_color = Color3.fromRGB(96, 96, 96),
+	main_color = Color3.fromRGB(0, 0, 0),
 	min_size = Vector2.new(500, 750),
 	toggle_key = Enum.KeyCode.RightShift,
 }
@@ -142,7 +142,7 @@ toggle.Position = UDim2.new(0, 5, 0, -2)
 toggle.Rotation = 90
 toggle.Size = UDim2.new(0, 20, 0, 20)
 toggle.ZIndex = 2
-toggle.Image = "https://www.roblox.com/Thumbs/Asset.ashx?width=420&height=420&assetId=98476559772187"
+toggle.Image = "https://www.roblox.com/Thumbs/Asset.ashx?width=420&height=420&assetId=138612082085180"
 
 base.Name = "Base"
 base.Parent = bar
